@@ -1,0 +1,5 @@
+{
+    "SVM Accuracy": 0.925,
+    "RF Accuracy": 0.975,
+    "Autoencoder Accuracy": 0.95
+}

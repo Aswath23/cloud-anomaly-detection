@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Anomaly Detection Dashboard</title>
+    
+    <!-- ✅ Load Chart.js & Socket.IO for real-time updates -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.js"></script>
+    
+    <!-- ✅ Load Custom JavaScript & CSS -->
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .chart-container {
+            width: 400px;
+            height: 400px;
+            display: inline-block;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Cloud Anomaly Detection Dashboard</h1>
+    
+    <h2>Real-Time Predictions</h2>
+    <div id="predictionOutput">Waiting for real-time data...</div>
+
+    <h2>Model Accuracy</h2>
+    <div class="chart-container">
+        <canvas id="accuracyChart"></canvas>
+    </div>
+
+    <h2>Prediction Distribution</h2>
+    <div class="chart-container">
+        <canvas id="predictionChart"></canvas>
+    </div>
+
+    <h2>Model-Specific Predictions</h2>
+    <div class="chart-container">
+        <canvas id="svmChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="rfChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="autoencoderChart"></canvas>
+    </div>
+
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+    
+        socket.on('prediction_update', function(data) {
+            document.getElementById("predictionOutput").innerHTML = 
+                `Prediction: <b>${data.label}</b> (${data.probability}%)`;
+        });
+    </script>
+
+</body>
+</html>
